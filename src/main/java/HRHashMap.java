@@ -21,11 +21,45 @@ class Result {
      */
 
     public static void checkMagazine(List<String> magazine, List<String> note) {
-        // Write your code here
+        // Write your code
+        Map<String, Integer> magMap = new ConcurrentHashMap<>();
+        Map<String, Integer> noteMap = new ConcurrentHashMap<>();
+
+        Integer count = 0;
+        for (String vocab : magazine) {
+            if ( magMap.get(vocab) != null) {
+                count = magMap.get(vocab);
+                magMap.put(vocab, ++count);
+            } else {
+                magMap.put(vocab, 1);
+            }
+        }
+        for (String vocab : note) {
+            if ( noteMap.get(vocab) != null) {
+                count = noteMap.get(vocab);
+                noteMap.put(vocab, ++count);
+            } else {
+                noteMap.put(vocab, 1);
+            }
+        }
+
+        Set<String> noteKeys = noteMap.keySet();
+        for (String noteKey : noteKeys) {
+            if (magMap.get(noteKey) == null) {
+                System.out.println("No");
+                return;
+            }
+            if (magMap.get(noteKey) < noteMap.get(noteKey)) {
+                System.out.println("No");
+                return;
+            }
+        }
+        System.out.println("Yes");
 
     }
 
 }
+
 
 public class HRHashMap {
     public static void main(String[] args) throws IOException {
